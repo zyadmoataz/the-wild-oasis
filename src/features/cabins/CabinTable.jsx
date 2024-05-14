@@ -63,8 +63,6 @@ function CabinTable() {
     (a, b) => (a[field] - b[field]) * modfier
   );
 
-  console.log(modfier, direction, field, sortedCabins);
-
   return (
     // We want to pass the column definition to the table
     <Menus>

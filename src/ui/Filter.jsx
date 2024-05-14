@@ -13,7 +13,10 @@ const StyledFilter = styled.div`
   gap: 0.4rem;
 `;
 
-const FilterButton = styled.button`
+//solving error
+const FilterButton = styled.button.withConfig({
+  shouldForwardProp: (prop) => prop !== "active",
+})`
   background-color: var(--color-grey-0);
   border: none;
 
@@ -27,7 +30,6 @@ const FilterButton = styled.button`
   border-radius: var(--border-radius-sm);
   font-weight: 500;
   font-size: 1.4rem;
-  /* To give the same height as select */
   padding: 0.44rem 0.8rem;
   transition: all 0.3s;
 
@@ -36,6 +38,30 @@ const FilterButton = styled.button`
     color: var(--color-brand-50);
   }
 `;
+
+// const FilterButton = styled.button`
+//   background-color: var(--color-grey-0);
+//   border: none;
+
+//   ${(props) =>
+//     props.active &&
+//     css`
+//       background-color: var(--color-brand-600);
+//       color: var(--color-brand-50);
+//     `}
+
+//   border-radius: var(--border-radius-sm);
+//   font-weight: 500;
+//   font-size: 1.4rem;
+//   /* To give the same height as select */
+//   padding: 0.44rem 0.8rem;
+//   transition: all 0.3s;
+
+//   &:hover:not(:disabled) {
+//     background-color: var(--color-brand-600);
+//     color: var(--color-brand-50);
+//   }
+// `;
 
 //we will store the value in which the table should be filtered in the URL again
 //because the URL is gonna be easily sharable and bookmarkable.

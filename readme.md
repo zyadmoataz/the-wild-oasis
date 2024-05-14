@@ -2,4 +2,4 @@
 
 # The Wild Oasis
 
-First Uploaded Project On Netilfy
+Built with React Query and Supabase.

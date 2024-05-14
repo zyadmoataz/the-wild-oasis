@@ -2,20 +2,24 @@
 /* eslint-disable no-unused-vars */
 import styled from "styled-components";
 import { format, isToday } from "date-fns";
+import {
+  HiArrowDownOnSquare,
+  HiArrowUpOnSquare,
+  HiEye,
+  HiTrash,
+} from "react-icons/hi2";
+import { useNavigate } from "react-router-dom";
 
 import Tag from "../../ui/Tag";
 import Table from "../../ui/Table";
+import Modal from "../../ui/Modal";
+import Menus from "../../ui/Menus";
+import ConfirmDelete from "../../ui/ConfirmDelete";
 
 import { formatCurrency } from "../../utils/helpers";
 import { formatDistanceFromNow } from "../../utils/helpers";
-import Menus from "../../ui/Menus";
-import { HiArrowUpOnSquare, HiEye, HiTrash } from "react-icons/hi2";
-import { useNavigate } from "react-router-dom";
-import { HiArrowDownOnSquare } from "react-icons/hi2";
 import { useCheckout } from "../check-in-out/useCheckout";
 import { useDeleteBooking } from "./useDeleteBooking";
-import Modal from "./../../ui/V2Modal";
-import ConfirmDelete from "./../../ui/ConfirmDelete";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -54,19 +58,19 @@ function BookingRow({
     numGuests,
     totalPrice,
     status,
-    cabins: { name: cabinName },
     guests: { fullName: guestName, email },
+    cabins: { name: cabinName },
   },
 }) {
+  const navigate = useNavigate();
+  const { checkout, isCheckingOut } = useCheckout();
+  const { deleteBooking, isDeleting } = useDeleteBooking();
+
   const statusToTagName = {
     unconfirmed: "blue",
     "checked-in": "green",
     "checked-out": "silver",
   };
-
-  const navigate = useNavigate();
-  const { checkout, isCheckingOut } = useCheckout();
-  const { isDeletingBooking, deleteBooking } = useDeleteBooking();
 
   return (
     <Table.Row>
@@ -102,32 +106,31 @@ function BookingRow({
               icon={<HiEye />}
               onClick={() => navigate(`/bookings/${bookingId}`)}
             >
-              See Details
+              See details
             </Menus.Button>
+
             {/* Not all bookings can be checked in so only the unconirmed bookings can be checked in */}
             {status === "unconfirmed" && (
               <Menus.Button
                 icon={<HiArrowDownOnSquare />}
                 onClick={() => navigate(`/checkin/${bookingId}`)}
               >
-                Check In
+                Check in
               </Menus.Button>
             )}
 
             {status === "checked-in" && (
               <Menus.Button
-                disabled={isCheckingOut}
                 icon={<HiArrowUpOnSquare />}
                 onClick={() => checkout(bookingId)}
+                disabled={isCheckingOut}
               >
-                Check Out
+                Check out
               </Menus.Button>
             )}
 
             <Modal.Open opens='delete'>
-              {status === "checked-out" && (
-                <Menus.Button icon={<HiTrash />}>Delete Booking</Menus.Button>
-              )}
+              <Menus.Button icon={<HiTrash />}>Delete booking</Menus.Button>
             </Modal.Open>
           </Menus.List>
         </Menus.Menu>
@@ -135,8 +138,8 @@ function BookingRow({
         <Modal.Window name='delete'>
           <ConfirmDelete
             resourceName='booking'
+            disabled={isDeleting}
             onConfirm={() => deleteBooking(bookingId)}
-            disabled={isDeletingBooking}
           />
         </Modal.Window>
       </Modal>
