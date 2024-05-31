@@ -20,6 +20,11 @@ const StyledConfirmDelete = styled.div`
     justify-content: flex-end;
     gap: 1.2rem;
   }
+
+  @media (max-width: 768px) {
+    font-size: 1.4rem;
+    width: 100%;
+  }
 `;
 
 //since this is the child component of thw modal window so it can receive the onClose prop

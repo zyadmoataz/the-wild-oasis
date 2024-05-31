@@ -12,27 +12,6 @@ import {
 } from "recharts";
 import { useDarkMode } from "../../context/DarkModeContext";
 
-/*startDataLight and startDataDark: These arrays define the initial data set for light and dark themes respectively. Each object in the array represents a category of stay duration with an initial count (value) set to 0 and a color.
-prepareData: A function that processes a list of stays to count how many stays fall into each duration category. It uses a helper function incArrayValue to increment the count of the correct category in startData. The reduce method iterates over the stays, and depending on the number of nights (numNights), it increments the corresponding duration's count.*/
-const ChartBox = styled.div`
-  /* Box */
-  background-color: var(--color-grey-0);
-  border: 1px solid var(--color-grey-100);
-  border-radius: var(--border-radius-md);
-
-  padding: 2.4rem 3.2rem;
-  grid-column: 3 / span 2;
-
-  & > *:first-child {
-    margin-bottom: 1.6rem;
-  }
-
-  & .recharts-pie-label-text {
-    font-weight: 600;
-  }
-`;
-
-//duration is the name key and value is the data key
 const startDataLight = [
   {
     duration: "1 night",
@@ -146,6 +125,50 @@ function prepareData(startData, stays) {
   return data;
 }
 
+const ChartBox = styled.div`
+  background-color: var(--color-grey-0);
+  border: 1px solid var(--color-grey-100);
+  border-radius: var(--border-radius-md);
+  padding: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  height: 40rem;
+  & > *:first-child {
+    margin-bottom: 1.6rem;
+  }
+
+  & .recharts-pie-label-text {
+    font-weight: 600;
+  }
+
+  @media (max-width: 1200px) {
+    height: 43rem;
+  }
+`;
+
+const StyledResponsiveContainer = styled(ResponsiveContainer)`
+  max-width: 100%;
+  /* height: 240px; */
+  height: fit-content;
+  margin-bottom: 1.6rem;
+
+  @media (max-width: 768px) {
+    height: auto;
+    max-height: 240px;
+  }
+`;
+
+const LegendContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  @media (max-width: 768px) {
+    gap: 0;
+  }
+`;
+
 function DurationChart({ confirmedStays }) {
   const { isDarkMode } = useDarkMode();
   const startData = isDarkMode ? startDataDark : startDataLight;
@@ -154,19 +177,16 @@ function DurationChart({ confirmedStays }) {
 
   return (
     <ChartBox>
-      <Heading as='h2'> Stay duration summary</Heading>
-      <ResponsiveContainer width='100%' height={240}>
+      <Heading as='h2'>Stay duration summary</Heading>
+      <StyledResponsiveContainer>
         <PieChart>
-          {/* <Cell>: Renders individual sectors of the pie, with colors specified in the data.
-              <Legend>: Displays a legend to identify what each color in the pie chart represents, positioned vertically to the right of the chart.
-          */}
           <Pie
             data={data}
             dataKey='value'
             nameKey='duration'
             innerRadius={85}
             outerRadius={110}
-            cx='40%'
+            cx='50%'
             cy='50%'
             paddingAngle={3}
           >
@@ -179,16 +199,31 @@ function DurationChart({ confirmedStays }) {
             ))}
           </Pie>
           <Tooltip />
-          <Legend
-            verticalAlign='middle'
-            align='right'
-            width='30%'
-            layout='vertical'
-            iconSize={15}
-            iconType='circle'
-          />
         </PieChart>
-      </ResponsiveContainer>
+      </StyledResponsiveContainer>
+      <LegendContainer>
+        {data.map((entry) => (
+          <div
+            key={entry.duration}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              marginRight: "10px",
+            }}
+          >
+            <span
+              style={{
+                display: "inline-block",
+                width: "10px",
+                height: "10px",
+                backgroundColor: entry.color,
+                marginRight: "5px",
+              }}
+            ></span>
+            {entry.duration}
+          </div>
+        ))}
+      </LegendContainer>
     </ChartBox>
   );
 }

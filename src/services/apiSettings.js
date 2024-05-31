@@ -9,13 +9,9 @@ export async function getSettings() {
     throw new Error("Settings could not be loaded");
   }
 
-  // return data[0]; or return this instead of using Single Function
   return data;
 }
 
-// We expect a newSetting object that looks like {setting: newValue}
-//we dont need id as we have only one row
-//we will pass object of column we want to update
 export async function updateSetting(newSetting) {
   const { data, error } = await supabase
     .from("settings")

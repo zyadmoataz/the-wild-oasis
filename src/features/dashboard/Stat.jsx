@@ -2,7 +2,6 @@
 import styled from "styled-components";
 
 const StyledStat = styled.div`
-  /* Box */
   background-color: var(--color-grey-0);
   border: 1px solid var(--color-grey-100);
   border-radius: var(--border-radius-md);
@@ -13,6 +12,13 @@ const StyledStat = styled.div`
   grid-template-rows: auto auto;
   column-gap: 1.6rem;
   row-gap: 0.4rem;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 const Icon = styled.div`
@@ -22,8 +28,6 @@ const Icon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
-  /* Make these dynamic, based on the received prop */
   background-color: var(--color-${(props) => props.color}-100);
 
   & svg {
@@ -31,9 +35,16 @@ const Icon = styled.div`
     height: 3.2rem;
     color: var(--color-${(props) => props.color}-700);
   }
+
+  @media (max-width: 768px) {
+    & svg {
+      width: 5rem;
+      height: 3rem;
+    }
+  }
 `;
 
-const Title = styled.h5`
+const Title = styled.h3`
   align-self: end;
   font-size: 1.2rem;
   text-transform: uppercase;

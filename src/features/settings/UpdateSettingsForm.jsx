@@ -7,7 +7,6 @@ import Spinner from "./../../ui/Spinner";
 import { useUpdateSetting } from "./useUpdateSettings";
 
 function UpdateSettingsForm() {
-  //set settings to {} empty object as at first reload we will have error as settings will be undefined
   const {
     isLoading,
     settings: {
@@ -32,7 +31,6 @@ function UpdateSettingsForm() {
   return (
     <Form>
       <FormRow label='Minimum nights/booking'>
-        {/* we will write a new value in this input and when we leave it make the new value updated using onBlur */}
         <Input
           type='number'
           id='min-nights'

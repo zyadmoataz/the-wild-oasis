@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import styled from "styled-components";
 import { useUser } from "./useUser";
 
@@ -19,16 +20,24 @@ const Avatar = styled.img`
   object-position: center;
   border-radius: 50%;
   outline: 2px solid var(--color-grey-100);
+  cursor: pointer;
 `;
 
-function UserAvatar() {
+function UserAvatar({ onClick }) {
   const { user } = useUser();
   const { avatar, fullName } = user.user_metadata;
+
+  const handleClick = (e) => {
+    e.stopPropagation(); // Stop the event from propagating to the parent elements
+    onClick(); // Call the onClick function passed from the parent component
+  };
+
   return (
     <StyledUserAvatar>
       <Avatar
         src={avatar || "default-user.jpg"}
         alt={`Avatar of ${fullName}`}
+        onClick={handleClick}
       />
       <span>{fullName}</span>
     </StyledUserAvatar>

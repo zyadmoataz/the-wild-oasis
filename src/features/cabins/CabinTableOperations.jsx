@@ -1,10 +1,22 @@
+import styled from "styled-components";
 import Filter from "../../ui/Filter";
 import SortBy from "../../ui/SortBy";
 import TableOperations from "./../../ui/TableOperations";
 
+const OperationsContainer = styled(TableOperations)`
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+`;
+
 function CabinTableOperations() {
   return (
-    <TableOperations>
+    <OperationsContainer>
+      {/* <TableOperations> */}
       <Filter
         filterField='discount'
         options={[
@@ -21,10 +33,14 @@ function CabinTableOperations() {
           { value: "regularPrice-asc", label: "Sort by Price (Low First)" },
           { value: "regularPrice-desc", label: "Sort by Price (High First)" },
           { value: "maxCapacity-asc", label: "Sort by Capacity (Low First)" },
-          { value: "maxCapacity-desc", label: "Sort by Capacity (High First)" },
+          {
+            value: "maxCapacity-desc",
+            label: "Sort by Capacity (High First)",
+          },
         ]}
       />
-    </TableOperations>
+      {/* </TableOperations> */}
+    </OperationsContainer>
   );
 }
 

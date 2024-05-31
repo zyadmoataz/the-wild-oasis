@@ -9,22 +9,31 @@ import DurationChart from "./DurationChart";
 import TodayActivity from "../check-in-out/TodayActivity";
 
 const StyledDashboardLayout = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: auto 34rem auto;
+  display: flex;
+  flex-wrap: wrap;
   gap: 2.4rem;
+
+  & > * {
+    flex: 1 1 calc(25% - 2.4rem); /* Four columns */
+
+    @media (max-width: 1024px) {
+      flex: 1 1 calc(50% - 2.4rem); /* Two columns */
+    }
+
+    @media (max-width: 768px) {
+      flex: 1 1 100%; /* Single column */
+    }
+  }
+
+  & > *:last-child {
+    flex: 1 1 100%;
+  }
 `;
 
 function DashboardLayout() {
-  //we can get the number of days from any of these 2 hooks
   const { bookings, isLoading: isLoading1 } = useRecentBookings();
-
   const { isLoading: isLoading2, confirmedStays, numDays } = useRecentStays();
-
   const { cabins, isLoading: isLoading3 } = useCabins();
-
-  // console.log(bookings);
-  // console.log(stays, confirmedStays);
 
   if (isLoading1 || isLoading2 || isLoading3) return <Spinner />;
 

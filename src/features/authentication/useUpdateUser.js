@@ -8,7 +8,7 @@ export function useUpdateUser() {
     mutationFn: updateCurrentUser,
     onSuccess: ({ user }) => {
       toast.success("User account successfully updated.");
-      //   console.log( user );
+
       queryClient.setQueryData(["user"], user); //update data manually in the cache if its not wokring and updated automatically
       queryClient.invalidateQueries({ queryKey: ["user"] });
     },

@@ -12,18 +12,6 @@ import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 
-// const TableRow = styled.div`
-//   display: grid;
-//   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
-//   column-gap: 2.4rem;
-//   align-items: center;
-//   padding: 1.4rem 2.4rem;
-
-//   &:not(:last-child) {
-//     border-bottom: 1px solid var(--color-grey-100);
-//   }
-// `;
-
 const Img = styled.img`
   display: block;
   width: 6.4rem;
@@ -31,6 +19,13 @@ const Img = styled.img`
   object-fit: cover;
   object-position: center;
   transform: scale(1.5) translateX(-7px);
+
+  @media (max-width: 768px) {
+    margin: 1rem 0 1rem 2rem;
+    aspect-ratio: 3 / 1.5;
+    width: 8rem;
+    border-radius: 5px;
+  }
 `;
 
 const Cabin = styled.div`
@@ -43,12 +38,25 @@ const Cabin = styled.div`
 const Price = styled.div`
   font-family: "Sono";
   font-weight: 600;
+  @media (max-width: 768px) {
+    &::before {
+      content: "Price: ";
+      font-weight: 500;
+    }
+  }
 `;
 
 const Discount = styled.div`
   font-family: "Sono";
   font-weight: 500;
   color: var(--color-green-700);
+
+  @media (max-width: 768px) {
+    &::before {
+      content: "Discount: ";
+      font-weight: 500;
+    }
+  }
 `;
 
 function CabinRow({ cabin }) {
@@ -90,7 +98,6 @@ function CabinRow({ cabin }) {
       <div>
         <Modal>
           <Menus.Menu>
-            {/* Toggle is when we click on that button it opens for us a list of buttons so we can select from them */}
             <Menus.Toggle id={cabinId} />
 
             <Menus.List id={cabinId}>

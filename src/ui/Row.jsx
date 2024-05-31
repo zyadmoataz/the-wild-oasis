@@ -15,6 +15,11 @@ const Row = styled.div`
       flex-direction: column;
       gap: 1.6rem;
     `}
+
+
+    @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 //set the default props

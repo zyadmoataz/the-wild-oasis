@@ -30,6 +30,14 @@ const StyledToggle = styled.button`
     height: 2.4rem;
     color: var(--color-grey-700);
   }
+
+  @media (max-width: 768px) {
+    position: absolute;
+    /* bottom: 0; */
+    right: 10%;
+    top: 1%;
+    /* right: 0; */
+  }
 `;
 
 const StyledList = styled.ul`
@@ -65,6 +73,10 @@ const StyledButton = styled.button`
     height: 1.6rem;
     color: var(--color-grey-400);
     transition: all 0.3s;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
   }
 `;
 

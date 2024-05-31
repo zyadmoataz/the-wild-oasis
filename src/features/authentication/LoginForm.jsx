@@ -16,8 +16,6 @@ function LoginForm() {
     e.preventDefault();
     if (!email || !password) return;
 
-    //this is a mutate function that returns a promise and we can set options
-    //using onSettled here not in the useLogin as we dont have access to the state values
     login(
       { email, password },
       {

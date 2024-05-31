@@ -1,39 +1,63 @@
+import styled from "styled-components";
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
-import styled from "styled-components";
 
 const Main = styled.main`
   background-color: var(--color-grey-50);
   padding: 4rem 4.8rem 6.4rem;
   overflow: auto;
+  transition: margin-left 0.3s ease;
+  margin-left: ${(props) => (props.isSidebarOpen ? "26rem" : null)};
+
+  @media (max-width: 768px) {
+    margin-left: 0;
+    padding: 1rem;
+  }
 `;
 
 const StyledAppLayout = styled.div`
-  display: grid;
-  grid-template-columns: 26rem 1fr; //26 for side bar
-  grid-template-rows: auto 1fr;
+  display: flex;
+  flex-direction: column;
   height: 100vh;
 `;
 
-const Conatiner = styled.div`
+const Container = styled.div`
+  width: 100%;
   max-width: 120rem;
-  margin: 0 auto;
+  margin: 7rem auto 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 3.2rem;
+  flex-wrap: wrap;
+  gap: 3.5rem;
+  min-height: 75dvh;
+
+  @media (max-width: 768px) {
+    min-height: 100dvh;
+  }
 `;
 
 function AppLayout() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <StyledAppLayout>
-      <Header />
-      <Sidebar />
-      {/* We placed all outlet inside a main to make all papes have this styles of main */}
-      <Main>
-        <Conatiner>
+      <Header toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <Sidebar key='sidebar' toggleSidebar={toggleSidebar} />
+        )}
+      </AnimatePresence>
+      <Main isSidebarOpen={isSidebarOpen}>
+        <Container>
           <Outlet />
-        </Conatiner>
+        </Container>
       </Main>
     </StyledAppLayout>
   );

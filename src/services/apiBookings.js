@@ -3,32 +3,7 @@ import { PAGE_SIZE } from "../utils/constants";
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
 
-//Get All bookings from supabase
-// we have the forgien key of guests id and cabins id so to get everything inside them do this "select("*, cabins(*), guests(*)")"
-//then we can get from cabins table the cabin name or guest email as we got everything inside them
-//OR WE CAN SELECT ONLY THE FIELDS WE NEED > To reduce the amount of unnecessary data we select only the fields we need
 export async function getBookings({ filter, sortBy, page }) {
-  // const { data, error } = await supabase
-  //   .from("bookings")
-  //   .select(
-  //     "*, cabins(name), guests(fullName , email)"
-  //   );
-
-  // //eq stands for equal "Field name", "value of field"
-  // //gte stands for greather than
-  // //lte stands for less than
-  // const { data, error } = await supabase
-  //   .from("bookings")
-  //   .select(
-  //     "id, created_at, totalPrice, status, startDate,endDate, numGuests, numNights, cabins(name), guests(fullName , email)"
-  //   )
-  //   .eq("status", "unconfirmed")
-  //   .gte("totalPrice", 5000);
-  //eq stands for equal "Field name", "value of field"
-  //gte stands for greather than
-  //lte stands for less than
-
-  //count: "exact" returns the number of rows in the table without taking into account the filters
   let query = supabase
     .from("bookings")
     .select(
@@ -80,9 +55,6 @@ export async function getBooking(id) {
   return data;
 }
 
-// Returns all BOOKINGS that are were created after the given date. Useful to get bookings created in the last 30 days, for example.
-//date:ISOString > What supabase expect
-//end is true because we are using that if (options?.end) if true   today.setUTCHours(23, 59, 59, 999) else today.setUTCHours(0, 0, 0, 0); so end makes sure that the date is at 23:59:59:999 or 00:00:00:000, fixing the date to the current day so it doesn't change every millisecond
 export async function getBookingsAfterDate(date) {
   const { data, error } = await supabase
     .from("bookings")
@@ -116,18 +88,6 @@ export async function getStaysAfterDate(date) {
 
 // Activity means that there is a check in or a check out today
 export async function getStaysTodayActivity() {
-  /*select("*, guests(fullName, nationality, countryFlag)"):
-    This method is used to specify the columns to retrieve. The * denotes that all columns from the bookings table should be retrieved.
-    Additionally, it performs a nested selection on a related table guests. The columns retrieved from guests are fullName, nationality, and countryFlag. This is often used when you have a foreign key in one table that relates to another table, allowing you to pull in related data in a single query.
-
-    or(...):
-    This method adds a filter condition that uses logical OR to combine different filtering criteria.
-    Inside the .or(), there are two conditions combined:
-    and(status.eq.unconfirmed,startDate.eq.${getToday()}): This checks for bookings that are unconfirmed and whose startDate is today. The getToday() is a function assumed to return today's date formatted correctly for the query.
-    and(status.eq.checked-in,endDate.eq.${getToday()}): This checks for bookings that have a status of checked-in and whose endDate is today.
-    These conditions ensure that the query fetches bookings that are either unconfirmed starting today or checked-in ending today.
-    
-    order("created_at"): This orders the results based on the created_at column. Without specifying asc (ascending) or desc (descending), it defaults to ascending order.*/
   const { data, error } = await supabase
     .from("bookings")
     .select("*, guests(fullName, nationality, countryFlag)")
@@ -135,11 +95,6 @@ export async function getStaysTodayActivity() {
       `and(status.eq.unconfirmed,startDate.eq.${getToday()}),and(status.eq.checked-in,endDate.eq.${getToday()})`
     )
     .order("created_at");
-
-  // Equivalent to this. But by querying this, we only download the data we actually need, otherwise we would need ALL bookings ever created
-  //ready to arrive or ready to leave
-  // (stay.status === 'unconfirmed' && isToday(new Date(stay.startDate))) ||
-  // (stay.status === 'checked-in' && isToday(new Date(stay.endDate)))
 
   if (error) {
     console.error(error);

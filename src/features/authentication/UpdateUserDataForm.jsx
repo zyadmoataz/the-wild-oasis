@@ -9,9 +9,9 @@ import Input from "../../ui/Input";
 
 import { useUser } from "./useUser";
 import { useUpdateUser } from "./useUpdateUser";
+import FormButtons from "../../ui/FormButtons";
 
 function UpdateUserDataForm() {
-  // We don't need the loading state, and can immediately use the user data, because we know that it has already been loaded at this point
   const {
     user: {
       email,
@@ -68,7 +68,7 @@ function UpdateUserDataForm() {
         />
       </FormRow>
 
-      <FormRow>
+      <FormButtons>
         <Button
           type='reset'
           variation='secondary'
@@ -78,7 +78,7 @@ function UpdateUserDataForm() {
           Cancel
         </Button>
         <Button disabled={isUpdating}>Update account</Button>
-      </FormRow>
+      </FormButtons>
     </Form>
   );
 }

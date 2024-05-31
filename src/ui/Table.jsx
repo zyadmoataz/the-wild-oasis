@@ -13,11 +13,22 @@ const StyledTable = styled.div`
 `;
 
 const CommonRow = styled.div`
+  position: relative;
   display: grid;
   grid-template-columns: ${(props) => props.columns};
   column-gap: 2.4rem;
   align-items: center;
   transition: none;
+
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    padding: 1.2rem 2.4rem;
+  }
 `;
 
 const StyledHeader = styled(CommonRow)`
@@ -29,13 +40,21 @@ const StyledHeader = styled(CommonRow)`
   letter-spacing: 0.4px;
   font-weight: 600;
   color: var(--color-grey-600);
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const StyledRow = styled(CommonRow)`
   padding: 1.2rem 2.4rem;
-
   &:not(:last-child) {
     border-bottom: 1px solid var(--color-grey-100);
+  }
+
+  @media (max-width: 768px) {
+    &:not(:last-child) {
+      border-bottom: 5px solid var(--color-grey-100);
+    }
   }
 `;
 

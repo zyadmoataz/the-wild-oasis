@@ -26,6 +26,10 @@ const Cabin = styled.div`
   font-weight: 600;
   color: var(--color-grey-600);
   font-family: "Sono";
+
+  @media (max-width: 768px) {
+    color: var(--color-brand-500);
+  }
 `;
 
 const Stacked = styled.div`
@@ -46,6 +50,13 @@ const Stacked = styled.div`
 const Amount = styled.div`
   font-family: "Sono";
   font-weight: 500;
+
+  @media (max-width: 768px) {
+    &::before {
+      content: "Amount: ";
+      font-weight: 500;
+    }
+  }
 `;
 
 function BookingRow({
@@ -94,9 +105,9 @@ function BookingRow({
         </span>
       </Stacked>
 
-      <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
-
       <Amount>{formatCurrency(totalPrice)}</Amount>
+
+      <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
       <Modal>
         <Menus.Menu>

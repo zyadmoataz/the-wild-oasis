@@ -19,6 +19,10 @@ const P = styled.p`
   & span {
     font-weight: 600;
   }
+
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+  }
 `;
 
 const Buttons = styled.div`
@@ -59,23 +63,22 @@ const PaginationButton = styled.button`
     background-color: var(--color-brand-600);
     color: var(--color-brand-50);
   }
+
+  @media (max-width: 768px) {
+    font-size: 1.1rem;
+  }
 `;
 
 function Pagination({ count }) {
-  //count Props is the total number of results
-  //going to next or previous page depend on current page which we will got from the url
   const [searchParams, setSearchParams] = useSearchParams();
 
-  //current page which we will get from the url will be 1 if not exist and will be a number else
   const currentPage = !searchParams.get("page") ? 1 : +searchParams.get("page");
 
-  //total number of pages will be total number of results divided by page size
   const pageCount = Math.ceil(count / PAGE_SIZE);
 
   function nextPage() {
-    //if current page is equal to total number of pages then we will not go to next page else we will go to next page
     const next = currentPage === pageCount ? currentPage : currentPage + 1;
-    //we will update the url with the next page
+
     searchParams.set("page", next);
     setSearchParams(searchParams);
   }

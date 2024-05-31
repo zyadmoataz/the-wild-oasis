@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import {
@@ -13,9 +13,12 @@ const NavList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+
+  @media (max-width: 768px) {
+    align-items: center; /* Center the links */
+  }
 `;
 
-//Styling 3rd part library
 const StyledNavLink = styled(NavLink)`
   &:link,
   &:visited {
@@ -30,7 +33,6 @@ const StyledNavLink = styled(NavLink)`
     transition: all 0.3s;
   }
 
-  /* This works because react-router places the active class on the active NavLink */
   &:hover,
   &:active,
   &.active:link,
@@ -55,30 +57,27 @@ const StyledNavLink = styled(NavLink)`
   }
 `;
 
-function MainNav() {
+function MainNav({ toggleSidebar }) {
   return (
     <nav>
       <NavList>
-        {/* <li>
-          <Link href='/dashboard'>Home</Link> this will cause reloading page so we will use navlink
-        </li> */}
-        <StyledNavLink to='/dashboard'>
+        <StyledNavLink to='/dashboard' onClick={toggleSidebar}>
           <HiOutlineHome />
           <span>Home </span>
         </StyledNavLink>
-        <StyledNavLink to='/bookings'>
+        <StyledNavLink to='/bookings' onClick={toggleSidebar}>
           <HiOutlineCalendarDays />
           <span>Bookings</span>
         </StyledNavLink>
-        <StyledNavLink to='/cabins'>
+        <StyledNavLink to='/cabins' onClick={toggleSidebar}>
           <HiOutlineHomeModern />
           <span>Cabins</span>
         </StyledNavLink>
-        <StyledNavLink to='/users'>
+        <StyledNavLink to='/users' onClick={toggleSidebar}>
           <HiOutlineUsers />
           <span>Users</span>
         </StyledNavLink>
-        <StyledNavLink to='/settings'>
+        <StyledNavLink to='/settings' onClick={toggleSidebar}>
           <HiOutlineCog6Tooth />
           <span>Settings</span>
         </StyledNavLink>

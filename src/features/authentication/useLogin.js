@@ -11,10 +11,6 @@ export function useLogin() {
   const { mutate: login, isLoading } = useMutation({
     mutationFn: ({ email, password }) => loginAPI({ email, password }),
     onSuccess: (user) => {
-      //to update the cache we can use the setQueryData function from the useQueryClient hook
-      //just specify the query key and the new data value
-      //this will update the cache with the new data
-      //   queryClient.setQueriesData(["user"], user); //bug
       queryClient.setQueryData(["user"], user.user);
       navigate("/dashboard", { replace: true });
       toast.success("Login successful");

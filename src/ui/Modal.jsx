@@ -16,6 +16,17 @@ const StyledModal = styled.div`
   box-shadow: var(--shadow-lg);
   padding: 3.2rem 4rem;
   transition: all 0.5s;
+
+  @media (max-width: 768px) {
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2rem;
+    width: 90%;
+    max-width: 400px;
+    max-height: calc(100% - 20%);
+    overflow-y: auto;
+  }
 `;
 
 const Overlay = styled.div`
@@ -28,6 +39,12 @@ const Overlay = styled.div`
   backdrop-filter: blur(4px);
   z-index: 1000;
   transition: all 0.5s;
+
+  @media (max-width: 768px) {
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 2rem;
+  }
 `;
 
 const Button = styled.button`
@@ -48,9 +65,6 @@ const Button = styled.button`
   & svg {
     width: 2.4rem;
     height: 2.4rem;
-    /* Sometimes we need both */
-    /* fill: var(--color-grey-500);
-    stroke: var(--color-grey-500); */
     color: var(--color-grey-500);
   }
 `;
@@ -78,13 +92,9 @@ function Open({ children, opens: opensWindowName }) {
   //to attach the open handler to the children which is in this case button we have to use Clone Element
   const { open } = useContext(ModalContext);
 
-  // return children;
-  // we will clone the children element and attach the open handler with new props
-  //now we cannot pass this handler function directly to the Button component wich is the child component
   return cloneElement(children, { onClick: () => open(opensWindowName) });
 }
 
-//we need to use clone element again to pass onClose as a prop as we have styled it as a regular modal
 function Window({ children, name }) {
   const { openName, close } = useContext(ModalContext);
 

@@ -5,6 +5,7 @@ import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 import { useSignup } from "./useSignUp";
+import FormButtons from "../../ui/FormButtons";
 
 // Email regex: /\S+@\S+\.\S+/
 
@@ -76,7 +77,7 @@ function SignupForm() {
         />
       </FormRow>
 
-      <FormRow>
+      <FormButtons>
         {/* type is an HTML attribute! */}
         <Button
           variation='secondary'
@@ -87,7 +88,7 @@ function SignupForm() {
           Cancel
         </Button>
         <Button disabled={isLoading}>Create new user</Button>
-      </FormRow>
+      </FormButtons>
     </Form>
   );
 }

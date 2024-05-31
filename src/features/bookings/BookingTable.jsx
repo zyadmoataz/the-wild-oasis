@@ -14,10 +14,6 @@ function BookingTable() {
   if (isLoading) return <Spinner />;
   if (!bookings.length) return <Empty resourceName='Bookings' />;
 
-  //Filtering and sorting is done in the server side
-  //if we clicked on checked-in only get me from supabase the checked-in data only
-  //to do so we will use .eq methon on the api bookings
-
   return (
     <Menus>
       <Table columns='0.6fr 2fr 2.4fr 1.4fr 1fr 3.2rem'>
@@ -25,8 +21,8 @@ function BookingTable() {
           <div>Cabin</div>
           <div>Guest</div>
           <div>Dates</div>
-          <div>Status</div>
           <div>Amount</div>
+          <div>Status</div>
           <div></div>
         </Table.Header>
 

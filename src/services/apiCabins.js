@@ -23,14 +23,9 @@ export async function deleteCabin(id) {
   return data;
 }
 
-//If we are editing we have to pass an id
 export async function createEditCabin(newCabin, id) {
-  //make a variable to check if the image is a url or a name
   const hasImagePath = newCabin?.image?.startsWith?.(supabaseUrl);
 
-  //https://tmqshbonovzamvxhsobz.supabase.co/storage/v1/object/public/cabin-images/cabin-001.jpg
-
-  // replace all slashes into nothing to avoid creating new folder and make image have a unique name
   const imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll(
     "/",
     ""
@@ -40,13 +35,6 @@ export async function createEditCabin(newCabin, id) {
     ? newCabin.image
     : `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
 
-  // Here we need to specify the image path to the new cabin we create so we will mutate the newCabin object
-  //1- Create/Edit cabin:
-  // const { data, error } = await supabase
-  //   .from("cabins")
-  //   .insert([{ ...newCabin, image: imagePath }])
-  //   .select()
-  //   .single();
   let query = supabase.from("cabins");
 
   //A)Create
@@ -56,8 +44,6 @@ export async function createEditCabin(newCabin, id) {
 
   //B) Edit
   if (id) {
-    //eq means equal means we dont want to update everything only the row of id we want to update
-    //diference we dont have to pass this into an array as creting cabin
     query = query.update({ ...newCabin, image: imagePath }).eq("id", id);
   }
   const { data, error } = await query.select().single();
@@ -67,9 +53,6 @@ export async function createEditCabin(newCabin, id) {
     throw new Error("Cabin could not be created");
   }
 
-  //we will do this if there is no error in creating the cabin it
-  //2. upload image
-  //image name we already created and the actual image
   if (hasImagePath) return data; //if image already have a path then it have been already uploaded so we dont need to upload again
   const { error: storageError } = await supabase.storage
     .from("cabin-images")
